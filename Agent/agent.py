@@ -4,7 +4,7 @@ import pandas as pd
 from messagebroker import Broker
 
 filename = '..\\Sample_Data\\mosvalues_small.csv'
-chunk_size = 1
+chunk_size = 2
 
 class Agent:
     def __init__(self):

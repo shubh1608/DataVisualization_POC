@@ -1,0 +1,87 @@
+
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeoutException;
+
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.Connection;
+import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.DeliverCallback;
+
+public class Queue {
+	
+	private String QUEUE_NAME = "q1";
+	private String RabbitMQ_Server = "localhost";
+	private Connection conn = null;
+	private CallDetailsRepository repo = null;
+	private int ThreadPoolSize = 2;
+	
+	public Queue()
+	{
+		ExecutorService connectionExecutor = SetupExecutorService();
+		conn = SetupQueueConnection(connectionExecutor);
+		repo = new CallDetailsRepository();
+	}
+	
+	private Connection SetupQueueConnection(ExecutorService connectionExecutor)
+	{
+        Connection conn = null;
+        ConnectionFactory cf = new ConnectionFactory();
+        cf.setHost(RabbitMQ_Server);
+        try {
+        	conn = cf.newConnection(connectionExecutor);
+		} catch (IOException e) {
+			System.out.println("IOException occurs while creating a connection.");
+		} catch (TimeoutException e) {
+			System.out.println("Timeout occurs while creating a connection.");
+		}
+        return conn;
+	}
+
+	private ExecutorService SetupExecutorService()
+	{
+		
+		ThreadFactory threadFactory = new ThreadFactory() {
+            int idx;
+            @Override
+            public Thread newThread(Runnable r) {
+                Thread t = new Thread(r);
+                t.setName("RMQ-" + (++idx));
+                t.setDaemon(true);
+                return t;
+            }
+        };
+
+        ExecutorService connectionExecutor = Executors.newFixedThreadPool(ThreadPoolSize, threadFactory);
+        return connectionExecutor;
+	}
+
+	public Channel CreateChannel()
+	{
+		Channel channel = null;
+	    try {
+	    	channel = conn.createChannel();
+			channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+		} catch (IOException e) {
+			System.out.println("IOException occurs while creating channel.");
+		}
+	    return channel;
+	}
+	
+	public void Subscribe(Channel channel)
+	{
+		DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+	        String message = new String(delivery.getBody(), "UTF-8");
+	        repo.Insert(message);
+	    };
+	    try {
+			channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { });
+		} catch (IOException e) {
+			System.out.println("IOException occurs while subscribing to queue.");
+		}
+	}
+	
+}
