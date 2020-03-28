@@ -3,7 +3,7 @@ import pika
 import pandas as pd
 from messagebroker import Broker
 
-filename = '..\\Sample_Data\\mosvalues_small.csv'
+filename = '..\\Sample_Data\\actual_data_sample.csv'
 chunk_size = 2
 
 class Agent:
@@ -12,7 +12,7 @@ class Agent:
         self.queue = broker.init_queue("rabbitmq")
 
     def read_csv(self):
-        for chunks in pd.read_csv(filename, chunksize = chunk_size, header=None):
+        for chunks in pd.read_csv(filename, chunksize = chunk_size):
             json_chunk = chunks.to_json(orient = 'records')
             self.queue.push(json_chunk)
 

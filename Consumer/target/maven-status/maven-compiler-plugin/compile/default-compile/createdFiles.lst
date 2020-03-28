@@ -1,4 +1,5 @@
 Program.class
 Queue$1.class
 CallDetailsRepository.class
+CassandraConnector.class
 Queue.class
