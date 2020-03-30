@@ -29,7 +29,7 @@ public class CassandraConnector {
 
 	public void SetupKeySpace() {
 		try {
-			String keySpace = "CREATE KEYSPACE IF NOT EXISTS CallDetailsSpace WITH REPLICATION "
+			String keySpace = "CREATE KEYSPACE IF NOT EXISTS calldetails_space WITH REPLICATION "
 					+ "= { 'class':'SimpleStrategy', 'replication_factor':1 };";
 			session.execute(keySpace);
 		} catch (Exception e) {

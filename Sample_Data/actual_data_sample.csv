@@ -1,4 +1,4 @@
-callid,hostid,src,dest,created,mos
+callid,hostid,src,dst,created,mos
 1,101,a,b,2020-03-28 21:05:10,1001
 2,201,m,n,2020-03-27 09:44:33,2001
 

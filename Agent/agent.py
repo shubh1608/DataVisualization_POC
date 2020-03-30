@@ -3,8 +3,8 @@ import pika
 import pandas as pd
 from messagebroker import Broker
 
-filename = '..\\Sample_Data\\actual_data_sample.csv'
-chunk_size = 2
+filename = '..\\Sample_Data\\shubham_test_large.csv'
+chunk_size = 1
 
 class Agent:
     def __init__(self):
@@ -13,6 +13,10 @@ class Agent:
 
     def read_csv(self):
         for chunks in pd.read_csv(filename, chunksize = chunk_size):
+            chunks.columns = chunks.columns.str.lower().str.replace("`", "").str.replace(" ","")
+            chunks['created'] = chunks['created'].str.replace("'", "")
+            chunks['src'] = chunks['src'].str.replace("'", "")
+            chunks['dst'] = chunks['dst'].str.replace("'", "")
             json_chunk = chunks.to_json(orient = 'records')
             self.queue.push(json_chunk)
 
