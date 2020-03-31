@@ -3,7 +3,7 @@ import pika
 import pandas as pd
 from messagebroker import Broker
 
-filename = '..\\Sample_Data\\shubham_test_large.csv'
+filename = '..\\Sample_Data\\shubham_test.csv'
 chunk_size = 1
 
 class Agent:
