@@ -1,3 +1,4 @@
+package rmq_consumer;
 
 public class CallDetails {
 	public int hostid;

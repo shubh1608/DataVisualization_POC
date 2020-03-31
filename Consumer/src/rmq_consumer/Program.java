@@ -1,3 +1,4 @@
+package rmq_consumer;
 import com.rabbitmq.client.*;
 
 public class Program {
@@ -32,7 +33,7 @@ public class Program {
 
 		} catch (Exception e) {
 			client.close();
-			System.out.println("Stopping application.");
+			System.out.println("Stopping application."+e.getStackTrace());
 		}
 
 	}

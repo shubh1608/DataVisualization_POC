@@ -1,3 +1,4 @@
+package rmq_consumer;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.Host;
 import com.datastax.driver.core.Metadata;

@@ -1,5 +1,5 @@
-C:\Code\DataVisualization_POC\Consumer\src\Program.java
-C:\Code\DataVisualization_POC\Consumer\src\CallDetailsRepository.java
-C:\Code\DataVisualization_POC\Consumer\src\CassandraConnector.java
-C:\Code\DataVisualization_POC\Consumer\src\CallDetails.java
-C:\Code\DataVisualization_POC\Consumer\src\Queue.java
+C:\Code\DataVisualization_POC\Consumer\src\rmq_consumer\CallDetails.java
+C:\Code\DataVisualization_POC\Consumer\src\rmq_consumer\CallDetailsRepository.java
+C:\Code\DataVisualization_POC\Consumer\src\rmq_consumer\CassandraConnector.java
+C:\Code\DataVisualization_POC\Consumer\src\rmq_consumer\Program.java
+C:\Code\DataVisualization_POC\Consumer\src\rmq_consumer\Queue.java
