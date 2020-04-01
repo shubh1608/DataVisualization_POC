@@ -17,7 +17,7 @@ public class CallDetailsRepository {
 		try {
 			this._session = session;
 			final String createMovieCql = "CREATE TABLE IF NOT EXISTS calldetails_space.calldetails "
-					+ "(callid int, hostid int, src varchar, dst varchar, mos double, year int, month int, day int, hour int, PRIMARY KEY (callid, hostid, year, month, day, hour))";
+					+ "(callid int, hostid int, created varchar, src varchar, dst varchar, mos double, year int, month int, day int, hour int, PRIMARY KEY(hostid, year, month, day, hour, callid))";
 			_session.execute(createMovieCql);
 		} catch (Exception e) {
 			System.out.println("Something went wrong while creating CallDetails table.");
@@ -34,8 +34,8 @@ public class CallDetailsRepository {
 			int day = cal.get(Calendar.DAY_OF_MONTH);
 			int hour = cal.get(Calendar.HOUR_OF_DAY);
 			_session.execute(
-					"INSERT INTO calldetails_space.calldetails (callid, hostid, src, dst, mos, year, month, day, hour) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-					details.callid, details.hostid, details.src, details.dst, details.mos, year, month, day, hour);
+					"INSERT INTO calldetails_space.calldetails (callid, hostid, created, src, dst, mos, year, month, day, hour) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+					details.callid, details.hostid, details.created, details.src, details.dst, details.mos, year, month, day, hour);
 		} catch (Exception e) {
 			System.out.println("Something went wrong while inserting record to database.");
 			throw e;
