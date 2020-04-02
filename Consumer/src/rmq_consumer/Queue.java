@@ -83,25 +83,8 @@ public class Queue {
 			_repo.InsertList(callDetails);
 		};
 
-//		DefaultConsumer consumer = new DefaultConsumer(channel) {
-//	         @Override
-//	         public void handleDelivery(String consumerTag,
-//	                                    Envelope envelope,
-//	                                    AMQP.BasicProperties properties,
-//	                                    byte[] body)
-//	             throws IOException
-//	         {
-//	        	 String message = new String(body, "UTF-8");
-//	 			CallDetails[] callDetails = gson.fromJson(message, CallDetails[].class);
-//	 			System.out.println("Thread "+Thread.currentThread().getName()+" invoked, "+callDetails.length+" records inserted.");
-//	 			_repo.InsertList(callDetails);
-//	         }
-//	     };
-		
 		try {
 			channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
-//			channel.basicConsume(QUEUE_NAME, true, consumer);
-			
 		} catch (IOException e) {
 			System.out.println("IOException occurs while subscribing to queue.");
 		}
