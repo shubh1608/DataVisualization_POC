@@ -20,11 +20,11 @@ class RabbitMQ(Queue):
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
     queue_name = "calldetailsqueue"
-    args ={
-        "queue-mode":  "lazy",
-        "max-length" : "500"
-    }
-    channel.queue_declare(queue=queue_name, arguments=args)
+    # args ={
+    #     "queue-mode":  "lazy",
+    #     "max-length" : "500"
+    # }
+    channel.queue_declare(queue=queue_name)
     print("Declared queue with name : {0}".format(queue_name))
 
     def push(self, msg):
