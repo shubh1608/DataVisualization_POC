@@ -19,7 +19,7 @@ import com.rabbitmq.client.Envelope;
 
 public class Queue {
 
-	private String QUEUE_NAME = "q1";
+	private String QUEUE_NAME = "calldetailsqueue";
 	private String RabbitMQ_Server = "localhost";
 	private Connection conn = null;
 	private CallDetailsRepository _repo = null;
@@ -69,6 +69,7 @@ public class Queue {
 		try {
 			channel = conn.createChannel();
 			channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+			System.out.println("channel opened to "+QUEUE_NAME);
 		} catch (IOException e) {
 			System.out.println("IOException occurs while creating channel.");
 		}
