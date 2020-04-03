@@ -28,4 +28,5 @@ hs_err_pid*
 /.metadata/
 
 # ignoring UI folder
-/UI
+/UI/Dummy_APP
+/UI/libs

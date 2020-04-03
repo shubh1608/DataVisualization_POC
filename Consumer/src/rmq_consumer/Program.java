@@ -11,24 +11,27 @@ public class Program {
 			client = new CassandraConnector();
 			client.connect("localhost", 9042);
 			client.SetupKeySpace();
-
+			
 			CallDetailsRepository repo = new CallDetailsRepository(client.getSession());
-
+			
 			Queue queue = new Queue(repo);
-
+			
 			Channel c1 = queue.CreateChannel();
 			queue.Subscribe(c1);
-
+			
 			Channel c2 = queue.CreateChannel();
 			queue.Subscribe(c2);
-			
-			/*
-			 * Channel c3 = queue.CreateChannel(); queue.Subscribe(c3);
-			 * 
-			 * Channel c4 = queue.CreateChannel(); queue.Subscribe(c4);
-			 * 
-			 * Channel c5 = queue.CreateChannel(); queue.Subscribe(c5);
-			 */
+				
+				
+			  Channel c3 = queue.CreateChannel(); 
+			  queue.Subscribe(c3);
+				  
+			  Channel c4 = queue.CreateChannel(); 
+			  queue.Subscribe(c4);
+			  
+			  Channel c5 = queue.CreateChannel(); 
+			  queue.Subscribe(c5);
+			 
 
 		} catch (Exception e) {
 			client.close();

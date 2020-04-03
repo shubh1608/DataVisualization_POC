@@ -22,7 +22,7 @@ class RabbitMQ(Queue):
     queue_name = "calldetailsqueue"
     args ={
         "queue-mode":  "lazy",
-        "max-length" : "500"
+        "max-length" : "50000"
     }
     channel.queue_declare(queue=queue_name, arguments=args)
     print("Declared queue with name : {0}".format(queue_name))
