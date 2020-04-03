@@ -20,15 +20,15 @@ class RabbitMQ(Queue):
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
     queue_name = "calldetailsqueue"
-    # args ={
-    #     "queue-mode":  "lazy",
-    #     "max-length" : "500"
-    # }
-    channel.queue_declare(queue=queue_name)
+    args ={
+        "queue-mode":  "lazy",
+        "max-length" : "500"
+    }
+    channel.queue_declare(queue=queue_name, arguments=args)
     print("Declared queue with name : {0}".format(queue_name))
 
     def push(self, msg):
-        self.channel.basic_publish(exchange='', routing_key='q1', body=msg)
+        self.channel.basic_publish(exchange='', routing_key="calldetailsqueue", body=msg)
 
 class Kafka(Queue):
 
