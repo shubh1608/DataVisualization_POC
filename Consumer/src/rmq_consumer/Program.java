@@ -22,14 +22,13 @@ public class Program {
 			Channel c2 = queue.CreateChannel();
 			queue.Subscribe(c2);
 			
-			Channel c3 = queue.CreateChannel();
-			queue.Subscribe(c3);
-			
-			Channel c4 = queue.CreateChannel();
-			queue.Subscribe(c4);
-			
-			Channel c5 = queue.CreateChannel();
-			queue.Subscribe(c5);
+			/*
+			 * Channel c3 = queue.CreateChannel(); queue.Subscribe(c3);
+			 * 
+			 * Channel c4 = queue.CreateChannel(); queue.Subscribe(c4);
+			 * 
+			 * Channel c5 = queue.CreateChannel(); queue.Subscribe(c5);
+			 */
 
 		} catch (Exception e) {
 			client.close();

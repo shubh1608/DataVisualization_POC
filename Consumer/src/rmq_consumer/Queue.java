@@ -79,7 +79,7 @@ public class Queue {
 		DeliverCallback deliverCallback = (consumerTag, delivery) -> {
 			String message = new String(delivery.getBody(), "UTF-8");
 			CallDetails[] callDetails = gson.fromJson(message, CallDetails[].class);
-			System.out.println("Thread "+Thread.currentThread().getName()+" invoked, "+callDetails.length+" records inserted.");
+			//System.out.println("Thread "+Thread.currentThread().getName()+" invoked, "+callDetails.length+" records inserted.");
 			_repo.InsertList(callDetails);
 		};
 
