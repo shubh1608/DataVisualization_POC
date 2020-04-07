@@ -6,24 +6,8 @@
   <title>Call Details</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.css" />
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid-theme.min.css" />
- 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jsgrid/1.5.3/jsgrid.min.js"></script>
-
-
-  <!-- <link rel="stylesheet" href="libs\node_modules\bootstrap\dist\css\bootstrap.css">
+  <link rel="stylesheet" href="libs\node_modules\bootstrap\dist\css\bootstrap.css">
   <script src="libs\node_modules\jquery\dist\jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="libs\node_modules\bootstrap\dist\js\bootstrap.js"></script>
@@ -32,7 +16,9 @@
   
   <link type="text/css" rel="stylesheet" href="libs\node_modules\jsgrid-1.5.3\jsgrid.min.css" />
   <link type="text/css" rel="stylesheet" href="libs\node_modules\jsgrid-1.5.3\jsgrid-theme.min.css" />
-  <script type="text/javascript" src="libs\node_modules\jsgrid-1.5.3\jsgrid.min.js"></script> -->
+  <script type="text/javascript" src="libs\node_modules\jsgrid-1.5.3\jsgrid.min.js"></script>
+
+  <script type="text/javascript" src="libs\node_modules\jquery-easy-loading\dist\jquery.loading.js"></script>
 
   <link rel="stylesheet" href="styles.css">
   <script src="calldetails.js"></script>
@@ -40,7 +26,7 @@
 
 <body>
   <div class="container-fluid">
-    <div style="width: 100%; height: 550px; border: solid thin; border-color: cadetblue;">
+    <div id="tblDiv" style="width: 100%; height: 550px; border: solid thin; border-color: cadetblue;">
         <div class="row">
             <div class="col-sm-12" >
                 <h5 style="margin-top: 10px; margin-left: 10px;">Call details based on Host ID</h5>
@@ -59,7 +45,7 @@
             </div>
             <div class="col-sm-3">
                 <label class="form-control-md">End Date:</label>
-                <input type="text" id="txtTblEndId" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+                <input type="text" id="txtTblEndDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
             </div>
             <div class="col-sm-2">
                 <button type="button" id="btnTable" class="btn btn-secondary btn-sm">Submit</button>
@@ -76,7 +62,7 @@
         </div>
     </div>
     <br>
-    <div style="width: 100%; height: 600px; border: solid thin; border-color: cadetblue;">
+    <div id="barChartDiv" style="width: 100%; height: 600px; border: solid thin; border-color: cadetblue;">
         <div class="row">
             <div class="col-sm-12" >
                 <h5 style="margin-top: 10px; margin-left: 10px;">Number of calls in an hour for a host</h5>
@@ -90,7 +76,7 @@
             </div>
             <div class="col-sm-3">
                 <label class="form-control-md">Date:</label>
-                <input type="text" id="txtBarChartDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+                <input type="text" id="txtBarChartDate" class="form-control-sm" placeholder="yyyy-mm-dd">
             </div>
             <div class="col-sm-2">
                 <button type="button" id="btnBarChart" class="btn btn-secondary btn-sm">Submit</button>
@@ -104,7 +90,7 @@
         </div>
     </div>
     <br>
-    <div style="width: 100%; height:500px; border: solid thin; border-color: cadetblue;">
+    <div id="lineChartDiv" style="width: 100%; height:500px; border: solid thin; border-color: cadetblue;">
         <div class="row">
             <div class="col-sm-12" >
                 <h5 style="margin-top: 10px; margin-left: 10px;">MOS scores for each call originated from Hosts</h5>
@@ -136,7 +122,7 @@
         </div>
     </div>
   </div>
-  
+
   </body>
 </body>
 </html>

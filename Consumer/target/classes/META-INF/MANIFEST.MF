@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Built-By: shubhamp
+Build-Jdk: 13.0.2
+Class-Path: libs/amqp-client-5.8.0.jar libs/slf4j-api-1.7.29.jar libs/ca
+ ssandra-driver-core-3.2.0.jar libs/netty-handler-4.0.44.Final.jar libs/
+ netty-buffer-4.0.44.Final.jar libs/netty-common-4.0.44.Final.jar libs/n
+ etty-transport-4.0.44.Final.jar libs/netty-codec-4.0.44.Final.jar libs/
+ guava-19.0.jar libs/metrics-core-3.1.2.jar libs/jnr-ffi-2.0.7.jar libs/
+ jffi-1.2.10.jar libs/jffi-1.2.10-native.jar libs/asm-5.0.3.jar libs/asm
+ -commons-5.0.3.jar libs/asm-analysis-5.0.3.jar libs/asm-tree-5.0.3.jar 
+ libs/asm-util-5.0.3.jar libs/jnr-x86asm-1.0.2.jar libs/jnr-posix-3.0.27
+ .jar libs/jnr-constants-0.9.0.jar libs/cassandra-driver-mapping-3.2.0.j
+ ar libs/cassandra-driver-extras-3.2.0.jar libs/gson-2.8.5.jar
+Main-Class: rmq_consumer.Program
+Created-By: Maven Integration for Eclipse
+

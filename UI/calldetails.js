@@ -1,50 +1,160 @@
 var dashboard = {
 
+    baseUrl: "http://10.11.15.80:8080/rocket/host/",
+
     Init: function () {
         var me = dashboard;
-        me.bindEvents();
+        var barChart = me.showBarChart();
+        var lineChart = me.showLineChart();
         me.showTable([]);
+        me.bindEvents(barChart,lineChart ); 
     },
 
-    bindEvents: function () {
+    bindEvents: function (barChrt, lineChrt) {
         var me = dashboard;
 
         $("#btnTable").off("click");
         $("#btnTable").on("click", me.fetchTblData);
 
         $("#btnBarChart").off("click");
-        $("#btnBarChart").on("click", function () {
-            var queryData ={
-                hostid: $("#tblHostId").val(),
-                startDate: $("#txtTblStartDate").val(),
-                endDate: $("#txtTblEndDate").val()
-            }
-            me.showBarChart();
+        $("#btnBarChart").on("click", function(){
+            me.fetchBarChartData(barChrt)
         });
 
         $("#btnLineChart").off("click");
-        $("#btnLineChart").on("click", function () {
-            me.showLineChart();
+        $("#btnLineChart").on("click", function(){
+            me.fetchLineChart(lineChrt)
         });
     },
 
     fetchTblData: function(){
         var me = dashboard;
-        var url = "http://10.11.15.80:8080/rocket-debug/cassandra/calls";
-        $.ajax({
-            type: 'Get',
-            contentType: 'application/json',
-            timeout: 360000,
-            url: url,
-            contentType: 'application/json',
-            success: function (data) {
-                alert("success");
-                alert(data);
-            },
-            error: function(error){
-                alert(error);
-            }
-        });
+        // var query = {
+        //     hostid: 37869,
+        //     startDate: "2017-01-03-01",
+        //     endDate: "2017-03-24-12" 
+        // };
+        var query = {
+            hostid: $("#txtTblHostId").val(),
+            startDate: $("#txtTblStartDate").val(),
+            endDate : $("#txtTblEndDate").val()
+        };
+        
+        if(query.hostid == "" || query.startDate == "" || query.endDate == "")
+        {
+            alert("please provide inputs!");
+        }else{
+            var url = me.baseUrl + query.hostid + "/records/" + query.startDate + "/" + query.endDate;
+            $("#tblDiv").loading();
+            $.ajax({
+                type: 'Get',
+                contentType: 'application/json',
+                timeout: 360000,
+                url: url,
+                success: function (data) {
+                    $("#tblDiv").loading("stop");
+                    console.log("number of records returned: "+data.length);
+                    me.showTable(data);
+                },
+                error: function(error){
+                    $("#tblDiv").loading("stop");
+                    alert(error);
+                }
+            });
+        }
+    },
+
+    fetchBarChartData: function(chart){
+        var me = dashboard;
+
+        var query = {
+            hostid: $("#txtBarChartHostId").val(),
+            date: $("#txtBarChartDate").val(),
+        };
+
+        if(query.hostid == "" || query.date == "")
+        {
+            alert("please provide inputs!");
+        }else{
+            var url = me.baseUrl + query.hostid + "/calls/" + query.date;
+            $("#barChartDiv").loading();
+            $.ajax({
+                type: 'Get',
+                contentType: 'application/json',
+                timeout: 360000,
+                url: url,
+                success: function (data) {
+                    $("#barChartDiv").loading("stop");
+                    var dict = {};
+                    for(var i=0; i<24; i++){
+                        dict[i]=0;
+                    }
+                    for(i in data){
+                        dict[data[i].hour] = data[i].count;
+                    }
+                    var countHr = [];
+                    for(var i in dict){
+                        countHr.push(dict[i]);
+                    }
+                    
+
+                    //chart.data.labels = lbls
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data = countHr;
+                    });
+                    chart.update();
+                },
+                error: function(error){
+                    $("#barChartDiv").loading("stop");
+                    alert(error);
+                }
+            });
+        }
+    },
+
+    fetchLineChart:function(chart){
+        var me = dashboard;
+
+        var query = {
+            hostid: $("#txtLineChartHostId").val(),
+            startDate: $("#txtLineChartStartDate").val(),
+            endDate: $("#txtLineChartEndDate").val()
+        };
+        
+        if(query.hostid == "" || query.startDate == "" || query.endDate == "")
+        {
+            alert("please provide inputs!");
+        }else{
+            var url = me.baseUrl + query.hostid + "/mos/" + query.startDate + "/" + query.endDate;
+            $("#lineChartDiv").loading();
+            $.ajax({
+                type: 'Get',
+                contentType: 'application/json',
+                timeout: 360000,
+                url: url,
+                success: function (data) {
+                    $("#lineChartDiv").loading("stop");
+                    var dict={};
+                    for(var i=0; i<data.length; i++){
+                        var key = data[i].year+"-"+data[i].month+"-"+data[i].day+"-"+data[i].hour; 
+                        dict[key] = data[i].mos.toFixed(2);
+                    }
+                    var dates=Object.keys(dict);
+                    var mosValues = Object.values(dict);
+
+                    chart.data.labels = dates
+                    chart.data.datasets.forEach((dataset) => {
+                        dataset.data = mosValues;
+                        dataset.label = "Number of datapoints: "+ data.length;
+                    });
+                    chart.update();
+                },
+                error: function(error){
+                    $("#lineChartDiv").loading("stop");
+                    alert(error);
+                }
+            });
+    }
     },
 
     showTable: function (jsonArr) {
@@ -55,7 +165,6 @@ var dashboard = {
             paging: true,
             data: jsonArr,
             fields: [
-                // { name: "created", type: "text", width: 100, title: "Created Date", align: "center" },
                 { name: "callid", type: "number", width: 80, title: "Call Id", align: "center" },
                 { name: "src", type: "text", width: 100, title: "Source", align: "center" },
                 { name: "dst", type: "text", width: 100, title: "Destination", align: "center" },
@@ -66,20 +175,29 @@ var dashboard = {
 
     showBarChart: function () {
         var ctx = $('#barChart');
+        var lbls = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
         var barChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
-                    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
+                labels: lbls,
                 datasets: [{
                     label: '# calls',
-                    data: [1, 2, 1, 5, 2, 3, 4, 5, 6, 12, 19, 20, 21, 22, 23, 30, 33, 27, 24, 17, 8, 7, 4, 2],
+                    // data: [],
                     backgroundColor: 'rgba(0,51,102,0.6)',
                     borderWidth: 1
                 }]
             },
             options: {
                 responsive: false,
+                legend: {
+                    display: true,
+                    position: "bottom",
+                    labels: {
+                        fontColor: "#333",
+                        fontSize: 16
+                    }
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
@@ -89,19 +207,19 @@ var dashboard = {
                 }
             }
         });
+        return barChart;
     },
 
-    showLineChart: function () {
+    showLineChart: function (hostId, hours, mosValues) {
         var hostIdData = {
-            labels: [188130, 188142, 188145, 188146, 188148, 188147, 188149, 188151,
-                188152, 188153, 188150, 188154, 188156, 188157, 188158, 188144,
-                188159, 188160, 188161, 188162, 188163, 188155, 188164],
+            labels: hours,
             datasets: [
                 {
-                    label: "HostId: 69653",
-                    data: [4.4, 4.4, 4.1, 4.3, 4.4, 4.4, 4.4, 4.4, 4.1, 4.1, 4.1, 4.2, 4.3, 4.3, 4.4, 4.4, 4.4, 4.4, 4.3, 4.3, 4.3, 4.3, 4.2],
-                    backgroundColor: "blue",
-                    borderColor: "lightblue",
+                    label: "Number of datapoints: ",
+                    data: mosValues,
+                    pointRadius: 0,
+                    backgroundColor: 'rgba(0,51,102,0.6)',
+                    borderColor: 'rgba(0,51,102,0.6)',
                     fill: false,
                     lineTension: 0,
                     radius: 5
@@ -124,30 +242,17 @@ var dashboard = {
                 scales: {
                     xAxes: [{
                         ticks: {
-                            autoSkip: false,
-                            maxRotation: 90,
-                            minRotation: 90
+                            autoSkip: true,
+                            maxRotation: 45,
+                            minRotation: 30,
+                            maxTicksLimit: 30
                         }
                     }]
                 }
             }
         });
+        return lineChart;
     },
-
-    callApi: function (url, queryData) {
-        $.ajax(url,
-            {
-                dataType: 'json', // type of response data
-                timeout: 500,     // timeout milliseconds
-                data:queryData,
-                success: function (data, status, xhr) {   // success callback function
-                    $('p').append(data.firstName + ' ' + data.middleName + ' ' + data.lastName);
-                },
-                error: function (jqXhr, textStatus, errorMessage) { // error callback 
-                    $('p').append('Error: ' + errorMessage);
-                }
-            });
-    }
 
 }
 
