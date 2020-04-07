@@ -1,0 +1,127 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Call Details</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="libs\node_modules\bootstrap\dist\css\bootstrap.css">
+  <script src="libs\node_modules\jquery\dist\jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="libs\node_modules\bootstrap\dist\js\bootstrap.js"></script>
+
+  <script charset="utf8" src=".\libs\node_modules\chart.js\dist\Chart.js"></script>
+  
+  <link type="text/css" rel="stylesheet" href="libs\node_modules\jsgrid-1.5.3\jsgrid.min.css" />
+  <link type="text/css" rel="stylesheet" href="libs\node_modules\jsgrid-1.5.3\jsgrid-theme.min.css" />
+  <script type="text/javascript" src="libs\node_modules\jsgrid-1.5.3\jsgrid.min.js"></script>
+
+  <script type="text/javascript" src="libs\node_modules\jquery-easy-loading\dist\jquery.loading.js"></script>
+
+  <script src="calldetails.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div id="tblDiv" style="width: 100%; height: 550px; border: solid thin; border-color: cadetblue;">
+        <div class="row">
+            <div class="col-sm-12" >
+                <h5 style="margin-top: 10px; margin-left: 10px;">Call details based on Host ID</h5>
+                <hr>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 10px; margin-top: 10px;">
+            
+            <div class="col-sm-3">
+                <label class="form-control-md">Host Id:</label>
+                <input type="text" id="txtTblHostId" class="form-control-sm">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-control-md">Start Date:</label>
+                <input type="text" id="txtTblStartDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-control-md">End Date:</label>
+                <input type="text" id="txtTblEndDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" id="btnTable" class="btn btn-secondary btn-sm">Submit</button>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <br>
+        <div class="row" style="margin-left: 10px; margin-right: 10px;">
+            <div class="col-sm-12">
+                <div width="1000px" height="450px" style="margin: 0 auto;">
+                    <div id="jsGrid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="barChartDiv" style="width: 100%; height: 600px; border: solid thin; border-color: cadetblue;">
+        <div class="row">
+            <div class="col-sm-12" >
+                <h5 style="margin-top: 10px; margin-left: 10px;">Number of calls in an hour for a host</h5>
+                <hr>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 10px; margin-top: 10px;">
+            <div class="col-sm-3">
+                <label class="form-control-md">Host Id:</label>
+                <input type="text" id="txtBarChartHostId" class="form-control-sm">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-control-md">Date:</label>
+                <input type="text" id="txtBarChartDate" class="form-control-sm" placeholder="yyyy-mm-dd">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" id="btnBarChart" class="btn btn-secondary btn-sm">Submit</button>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+        <div class="row" style="margin-top: 30px;">
+            <div class="col-sm-12">
+                <canvas id="barChart" width="1000px" height="450px" style="margin: 0 auto;"></canvas>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div id="lineChartDiv" style="width: 100%; height:500px; border: solid thin; border-color: cadetblue;">
+        <div class="row">
+            <div class="col-sm-12" >
+                <h5 style="margin-top: 10px; margin-left: 10px;">MOS scores for each call originated from Hosts</h5>
+                <hr>
+            </div>
+        </div>
+        <div class="row" style="margin-left: 10px; margin-top: 10px;">
+            <div class="col-sm-3">
+                <label class="form-control-md">Host Id:</label>
+                <input type="text" id="txtLineChartHostId" class="form-control-sm">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-control-md">Start Date:</label>
+                <input type="text" id="txtLineChartStartDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+            </div>
+            <div class="col-sm-3">
+                <label class="form-control-md">End Date:</label>
+                <input type="text" id="txtLineChartEndDate" class="form-control-sm" placeholder="yyyy-mm-dd-hh">
+            </div>
+            <div class="col-sm-2">
+                <button type="button" id="btnLineChart" class="btn btn-secondary btn-sm">Submit</button>
+            </div>
+            <div class="col-sm-1"></div>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="col-sm-12">
+                <canvas id="lineChart" width="1190px" height="350px" style="margin: 0 auto;"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  </body>
+</body>
+</html>

@@ -29,15 +29,11 @@ var dashboard = {
 
     fetchTblData: function(){
         var me = dashboard;
-        // var query = {
-        //     hostid: 37869,
-        //     startDate: "2017-01-03-01",
-        //     endDate: "2017-03-24-12" 
-        // };
+        
         var query = {
-            hostid: $("#txtTblHostId").val(),
-            startDate: $("#txtTblStartDate").val(),
-            endDate : $("#txtTblEndDate").val()
+            hostid: $("#txtTblHostId").val().trim(),
+            startDate: $("#txtTblStartDate").val().trim(),
+            endDate : $("#txtTblEndDate").val().trim()
         };
         
         if(query.hostid == "" || query.startDate == "" || query.endDate == "")
@@ -67,9 +63,13 @@ var dashboard = {
     fetchBarChartData: function(chart){
         var me = dashboard;
 
+        var inputdate = $("#txtBarChartDate").val().trim();
+        var res = inputdate.split("-");
+        var date = res[0]+"-"+res[1]+"-"+res[2]
+
         var query = {
-            hostid: $("#txtBarChartHostId").val(),
-            date: $("#txtBarChartDate").val(),
+            hostid: $("#txtBarChartHostId").val().trim(),
+            date: date,
         };
 
         if(query.hostid == "" || query.date == "")
