@@ -11,7 +11,7 @@ file_loc = '..//Sample_Data//split//'
 agent_count = int(sys.argv[1])
 print("Total agents: {0}".format(agent_count))
 csv_file_cnt = 27
-chunk_size = 1
+chunk_size = int(sys.argv[2])
 
 class Agent:
     def __init__(self):
