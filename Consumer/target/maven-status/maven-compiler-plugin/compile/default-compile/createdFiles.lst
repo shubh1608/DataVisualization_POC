@@ -1,6 +1,6 @@
+rmq_consumer\CallDetailsRepository.class
 rmq_consumer\Queue.class
 rmq_consumer\CassandraConnector.class
-rmq_consumer\CallDetailsRepository.class
 rmq_consumer\CallDetails.class
 rmq_consumer\Program.class
 rmq_consumer\Queue$1.class

@@ -2,38 +2,19 @@ import csv
 import pika
 import pandas as pd
 
-class Broker:
-    def init_queue(self, queue):
-        if queue == "rabbitmq":
-            return RabbitMQ()
-        if queue == "kafka":
-            return Kafka()
+class RabbitMQ:
 
-# interface for queue
-class Queue:
-    def push(self):
-        pass
+    def create_channel(self, thread_name):
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        channel = connection.channel()
+        queue_name = "calldetailsqueue"
+        args ={
+            "queue-mode":  "lazy",
+            "max-length" : "50000"
+        }
+        channel.queue_declare(queue=queue_name, arguments=args)
+        print("created channel for thread: {0} and queue: {1}".format(thread_name ,queue_name))
+        return channel
 
-class RabbitMQ(Queue):
-
-    #creating connection to rabbitMQ
-    connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-    channel = connection.channel()
-    queue_name = "calldetailsqueue"
-    args ={
-        "queue-mode":  "lazy",
-        "max-length" : "50000"
-    }
-    channel.queue_declare(queue=queue_name, arguments=args)
-    print("Declared queue with name : {0}".format(queue_name))
-
-    def push(self, msg):
-        self.channel.basic_publish(exchange='', routing_key="calldetailsqueue", body=msg)
-
-class Kafka(Queue):
-
-    #to-do: make connection to Kafka
-
-    def push(self, msg):
-        #to-do: push msg to queue
-        pass
+    def push(self, channel, msg):
+        channel.basic_publish(exchange='', routing_key="calldetailsqueue", body=msg)
