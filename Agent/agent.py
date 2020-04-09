@@ -26,10 +26,12 @@ class Agent:
                 chunks['created'] = chunks['created'].str.replace("'", "")
                 chunks['src'] = chunks['src'].str.replace("'", "")
                 chunks['dst'] = chunks['dst'].str.replace("'", "")
-                json_chunk = chunks.to_json(orient = 'records')
 
-                #push to queue
-                self.queue.push(channel,json_chunk)
+                for i, row in chunks.iterrows():
+                    df = pd.DataFrame(row.values.reshape(1,6))
+                    df.columns = chunks.columns
+                    json = df.to_json(orient = "records")
+                    self.queue.push(channel,json)
         
         print("{0} is done with reading files".format(threading.current_thread().name))
 
