@@ -4,6 +4,7 @@ import pandas as pd
 import sys
 import threading
 from time import time
+import math
 from messagebroker import RabbitMQ
 
 file_loc = '..//Sample_Data//split//'
@@ -11,7 +12,8 @@ file_loc = '..//Sample_Data//split//'
 agent_count = int(sys.argv[1])
 print("Total agents: {0}".format(agent_count))
 csv_file_cnt = 27
-chunk_size = int(sys.argv[2])
+disk_chunk_size = int(sys.argv[2])
+message_size = int(sys.argv[3])
 
 class Agent:
     def __init__(self):
@@ -20,18 +22,19 @@ class Agent:
     def read_csv(self, file_array, channel):
         for i in file_array:
             filename = "{0}test_{1}".format(file_loc,i)
-            for chunks in pd.read_csv(filename, chunksize = chunk_size):
+            for chunks in pd.read_csv(filename, chunksize = disk_chunk_size):
                 #pre processing
                 chunks.columns = chunks.columns.str.lower().str.replace("`", "").str.replace(" ","")
                 chunks['created'] = chunks['created'].str.replace("'", "")
                 chunks['src'] = chunks['src'].str.replace("'", "")
                 chunks['dst'] = chunks['dst'].str.replace("'", "")
 
-                for i, row in chunks.iterrows():
-                    df = pd.DataFrame(row.values.reshape(1,6))
-                    df.columns = chunks.columns
-                    json = df.to_json(orient = "records")
-                    self.queue.push(channel,json)
+                iterations = math.ceil(chunks.shape[0]/message_size)
+                for i in range(iterations):
+                    msg = chunks.iloc[:message_size]
+                    json_msg = msg.to_json(orient="records")
+                    self.queue.push(channel, json_msg)
+                    chunks = chunks[message_size:]
         
         print("{0} is done with reading files".format(threading.current_thread().name))
 

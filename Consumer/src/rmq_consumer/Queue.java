@@ -26,7 +26,8 @@ public class Queue {
 	private int ThreadPoolSize = 5;
 	Gson gson = new Gson();
 
-	public Queue(CallDetailsRepository repo) {
+	public Queue(CallDetailsRepository repo, int consumer_count) {
+		ThreadPoolSize = consumer_count;
 		ExecutorService connectionExecutor = SetupExecutorService();
 		conn = SetupQueueConnection(connectionExecutor);
 		_repo = repo;
