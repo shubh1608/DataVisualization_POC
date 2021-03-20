@@ -49,11 +49,6 @@
    * UI - HTML and Javascript based user interface for displaying the trends in data, it will consume the json data by calling the Rest APIs.
 
 
-## Needs of this project
-- Data Engineer
-- Python Developer
-- FrontEnd & BackEnd Developer
-
 ## Getting Started
 1. Clone this repo (for help see this [tutorial](https://help.github.com/articles/cloning-a-repository/)).
 2. Source your data first, you can experiment with time series data which should be in csv format. For example This agent reads data from a large csv file which has information for 6 columns.
